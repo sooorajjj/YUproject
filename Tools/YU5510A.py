@@ -47,6 +47,8 @@ def fastboot_function(usb_attrs, recoveries_path):
 
 		print("Unsigned Device Detected")
 
+		exit()
+
 		
 	elif scan.find('REFRESH_emmccid_secureboot') >= 0 :
 
