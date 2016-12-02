@@ -15,9 +15,11 @@ def select_device(project_path):
 	device = devices.device_list[selected_device_index]
 	usb_attrs = devices.usb_attrs_list[selected_device_index]
 	tools_path = os.path.join(project_path, 'Tools')
+	firmwares_path = os.path.join(project_path, 'Firmwares')
+	flash_script_path = os.path.join(firmwares_path, device)
 	recovery_path = os.path.join(tools_path, 'Recoveries')
 	device_module_path = os.path.join(tools_path, device)
-	sys.argv = [device, usb_attrs, project_path, tools_path, recovery_path]# Contains modelNo, we can set more arguments,
+	sys.argv = [device, usb_attrs, project_path, tools_path, recovery_path, flash_script_path]# Contains modelNo, we can set more arguments,
 	execfile(device_module_path+'.py')#it will be available in execfile[Target] __main__
 
 
@@ -45,6 +47,8 @@ if __name__ == '__main__':
 	global device
 	global project_path
 	global tools_path
-	global device_module_path
+	global firmwares_path
+	global flash_script_path
 	global recovery_path
+	global device_module_path
 	os_platform()

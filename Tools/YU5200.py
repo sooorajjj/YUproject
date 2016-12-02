@@ -4,12 +4,12 @@ import subprocess
 import time
 import os
 
-def validation(device):
 
+def validation(device, flash_script_path):
 	cmd1 = 'adb devices'
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
 	print(scan1)
-	time.sleep(8)
+	time.sleep(6)
 
 	cmd2 = 'adb shell mount /system && adb shell grep -m 1  "^ro.product.model=" /system/build.prop'
 	scan2 = str(subprocess.check_output(cmd2, shell=True, stderr=subprocess.STDOUT).strip())
@@ -21,6 +21,9 @@ def validation(device):
 
 	elif device.find(substr_scan) >= 0:
 		print('Yureka S ('+device+')')
+		flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+		# execfile(flash_script_module)#it will be available in execfile[Target] __main__
+		subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
 
 	else :
 		print('Device Not '+device+', \nExit!')
@@ -31,10 +34,10 @@ def fastboot_function(usb_attrs, recoveries_path):
 	cmd1 = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'castor_recovery.img')
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
 	print(scan1)
-	time.sleep(20)
+	time.sleep(10)
 
 
 if __name__ == '__main__':
 
 	fastboot_function(sys.argv[1], sys.argv[4])
-	validation(sys.argv[0])
+	validation(sys.argv[0], sys.argv[5])

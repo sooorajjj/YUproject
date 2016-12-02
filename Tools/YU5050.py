@@ -4,7 +4,8 @@ import subprocess
 import time
 import os
 
-def validation(device):
+
+def validation(device, flash_script_path):
 
 	cmd1 = 'adb devices'
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
@@ -21,6 +22,9 @@ def validation(device):
 
 	elif device.find(substr_scan) >= 0:
 		print('Yutopia '+device)
+		flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+		# execfile(flash_script_module)#it will be available in execfile[Target] __main__
+		subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
 
 	else :
 		print('Device Not '+device+', \nExit!')
@@ -43,4 +47,4 @@ def fastboot_function(usb_attrs, recoveries_path):
 if __name__ == '__main__':
 
 	fastboot_function(sys.argv[1], sys.argv[4])
-	validation(sys.argv[0])
+	validation(sys.argv[0], sys.argv[5])

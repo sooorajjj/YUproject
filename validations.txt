@@ -1,0 +1,47 @@
+AO5510
+======
+adb shell mount /system && adb shell grep -m 1  "^ro.product.name=" /system/build.prop
+
+result : ro.product.name=YUREKA
+
+YU4711
+======
+adb shell mount /system && adb shell grep -m 1  "^ro.product.model=" /system/build.prop
+result : ro.product.model=YU4711
+adb shell grep -m 1  "^MemTotal:" /proc/meminfo
+result : Yunique Plus if greater than 1500000        #MemTotal:        1953696 kB
+	     Ynique if less than 1000000                 #MemTotal:         916404 kB
+
+YU5010
+======
+adb shell mount /system && adb shell grep -m 1  "^ro.product.model=" /system/build.prop
+result : ro.product.model=YU5010
+
+YU5010A
+=======
+adb shell mount /system && adb shell grep -m 1  "^ro.product.model=" /system/build.prop
+result : ro.product.model=YU5010A
+adb shell mount /system && adb shell grep -m 1  "^ro.build.display.wtid=" /system/build.prop
+result : ro.build.display.wtid=125/126 # 125 is Unsigned # 126 is Signed
+
+YU5200
+======
+adb shell mount /system && adb shell grep -m 1  "^ro.product.model=" /system/build.prop
+result : ro.product.model=YU5200
+
+YU5510
+======
+Not yet Done
+
+YU5510A
+=======
+'fastboot'+usb_attrs+'getvar version'
+result : 0.5_emmccid_secureboot     # if it finds this string in output its an Unsigned device
+		 REFRESH_emmccid_secureboot    # if it finds this string in output its an Signed device
+adb shell mount /system && adb shell grep -m 1  "^ro.product.model=" /system/build.prop
+result : ro.product.model=YU5510A
+
+YU5530
+======
+'fastboot'+usb_attrs+'getvar product'
+result : WT6755_66_SZ_ # if it finds this string it passes validation 

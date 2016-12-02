@@ -1,12 +1,13 @@
 #!/usr/bin/python -tt
 import sys
+from sys import platform as _platform
 import os
 import subprocess
 import time
 
 
 
-def validation(device):
+def validation(device, flash_script_path):
 
 	cmd1 = 'adb devices'
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
@@ -30,9 +31,24 @@ def validation(device):
 
 		if int(substr_scan2) >= 1553696:#MemTotal:        1953696 kB
 			print('Yunique Plus '+device+'+')
+			if _platform == 'linux' or _platform == 'linux2':
+				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+			
+			elif _platform == 'darwin':
+				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
+			elif _platform == 'win32':
+				print('Found '+_platform+'\n'+'')
+
+			else :
+				print('Unable to recognise this OS')
+
 	 
 		elif int(substr_scan2) <= 1000000:#MemTotal:         916404 kB
 			print('Yunique '+device)
+			flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+			# execfile(flash_script_module)#it will be available in execfile[Target] __main__
+			subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
 
 		else :
 			print('Unknown Model of Yunique')
@@ -49,7 +65,6 @@ def fastboot_function(usb_attrs, recoveries_path):
 	time.sleep(5)
 
 	cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP-2.8.7.0_jalebi-v2.img')
-	print(cmd)
 	scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 	print(scan)
 	time.sleep(13)
@@ -57,4 +72,4 @@ def fastboot_function(usb_attrs, recoveries_path):
 
 if __name__ == '__main__':
 	fastboot_function(sys.argv[1], sys.argv[4])
-	validation(sys.argv[0])
+	validation(sys.argv[0], sys.argv[5])
