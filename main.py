@@ -27,7 +27,7 @@ def os_platform():
 
 	if _platform == 'linux' or _platform == 'linux2':
 		print('========Linux=========')
-		project_path = str(subprocess.check_output('pwd', shell=True).strip()) + '/'
+		project_path = str(subprocess.check_output('pwd', shell=True).strip())
 		select_device(project_path)
 
 	elif _platform == 'darwin':
@@ -36,8 +36,9 @@ def os_platform():
 	
 	elif _platform == 'win32':
 		print('========Windows=========')
-		print('No Support for Windows yet')
-	    # project_path = 'C:\\working\\'
+		# from win32 import *
+		project_path = str(subprocess.check_output('echo %cd%', shell=True).strip())
+		select_device(project_path)
 
 	else :
 		print('Unable to recognise this OS')
