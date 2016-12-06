@@ -17,13 +17,26 @@ def validation(device, flash_script_path):
 	print(substr_scan +' String length : ' + str(len(substr_scan)))
 
 	if len(substr_scan) == 0 :
-		print("Device Validation Failed, \nExit! ")
+		print('Device Validation Failed, \nExit! ')
 
 	elif device.find(substr_scan) >= 0:
 		print('Yureka S ('+device+')')
-		flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-		# execfile(flash_script_module)#it will be available in execfile[Target] __main__
-		subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+
+		if _platform == 'linux' or _platform == 'linux2':
+			flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+			# execfile(flash_script_module)#it will be available in execfile[Target] __main__
+			subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+		
+		elif _platform == 'darwin':
+			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+		
+		elif _platform == 'win32':
+			print('Found '+_platform+'\n'+'')
+			flash_script_module = os.path.join(flash_script_path, 'flash_all.bat')
+			subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+
+		else :
+			print('Unable to recognise this OS')
 
 	else :
 		print('Device Not '+device+', \nExit!')

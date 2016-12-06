@@ -65,8 +65,11 @@ def fastboot_function(usb_attrs, recoveries_path):
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
 		elif _platform == 'win32':
 			print('Found '+_platform+'\n'+'')
+
+			
 		else :
 			print('Unable to recognise this OS')
+
 
 		exit()
 

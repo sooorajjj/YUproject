@@ -1,6 +1,7 @@
 #!/usr/bin/python -tt
 import sys
 from sys import platform as _platform
+from xml.etree import ElementTree as ET
 import subprocess
 import os
 import devices
@@ -19,7 +20,10 @@ def select_device(project_path):
 	flash_script_path = os.path.join(firmwares_path, device)
 	recovery_path = os.path.join(tools_path, 'Recoveries')
 	device_module_path = os.path.join(tools_path, device)
-	sys.argv = [device, usb_attrs, project_path, tools_path, recovery_path, flash_script_path]# Contains modelNo, we can set more arguments,
+	qfil_path = os.path.join(project_path, 'QFIL')
+	ygdp_path = os.path.join(project_path, 'YGDP')
+	sp_flash_tool_path = os.path.join(project_path, 'SPFlashTools')
+	sys.argv = [device, usb_attrs, project_path, tools_path, recovery_path, flash_script_path, qfil_path, ygdp_path, sp_flash_tool_path]# Contains modelNo, we can set more arguments,
 	execfile(device_module_path+'.py')#it will be available in execfile[Target] __main__
 
 
@@ -36,7 +40,6 @@ def os_platform():
 	
 	elif _platform == 'win32':
 		print('========Windows=========')
-		# from win32 import *
 		project_path = str(subprocess.check_output('echo %cd%', shell=True).strip())
 		select_device(project_path)
 
@@ -52,4 +55,7 @@ if __name__ == '__main__':
 	global flash_script_path
 	global recovery_path
 	global device_module_path
+	global qfil_path
+	global ygdp_path
+	global SPFlashTools
 	os_platform()

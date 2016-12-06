@@ -5,7 +5,7 @@ from sys import platform as _platform
 import time
 
 
-def fastboot_function(device, usb_attrs, flash_script_path):
+def fastboot_function(device, usb_attrs, flash_script_path, sp_flash_tool_path):
 
 	cmd1 = 'fastboot'+usb_attrs+'getvar product'
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
@@ -17,12 +17,18 @@ def fastboot_function(device, usb_attrs, flash_script_path):
 
 	elif scan1.find('ZAL1860_PLATFORM') >= 0:
 		print('Yureka S ('+device+')')
+
 		if _platform == 'linux' or _platform == 'linux2':
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
 		elif _platform == 'darwin':
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
 		elif _platform == 'win32':
 			print('Found '+_platform+'\n'+'')
+			sp_flash_tool_module = os.path.join(sp_flash_tool_path, 'flash_tool.exe')
+			os.system(sp_flash_tool_module+' -d ' + sp_flash_tool_path + '\MTK_AllInOne_DA.bin -s ' + flash_script_path + '\MT6753_Android_scatter.txt -c firmware-upgrade')
+			
 		else :
 			print('Unable to recognise this OS')
 
@@ -33,4 +39,4 @@ def fastboot_function(device, usb_attrs, flash_script_path):
 
 if __name__ == '__main__':
 
-	fastboot_function(sys.argv[0], sys.argv[1], sys.argv[5])
+	fastboot_function(sys.argv[0], sys.argv[1], sys.argv[5], sys.argv[8])

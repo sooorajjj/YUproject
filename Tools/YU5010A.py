@@ -7,7 +7,7 @@ import time
 
 
 
-def validation(device, flash_script_path):
+def validation(device, flash_script_path, qfil_path):
 
 	cmd1 = 'adb devices'
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
@@ -37,11 +37,23 @@ def validation(device, flash_script_path):
 		if substr_scan.find('125') >= 0:
 			print('Unsigned Device')
 
-			build_type_path = os.path.join(flash_script_path, 'UnSigned')
-			flash_script_module = os.path.join(build_type_path, 'flash.sh')
-			# execfile(flash_script_module)#it will be available in execfile[Target] __main__
-			subprocess.call(['source '+flash_script_module+' '+build_type_path], shell=True)
 
+			if _platform == 'linux' or _platform == 'linux2':
+				build_type_path = os.path.join(flash_script_path, 'UnSigned')
+				flash_script_module = os.path.join(build_type_path, 'flash.sh')
+				subprocess.call(['source '+flash_script_module+' '+build_type_path], shell=True)
+
+			elif _platform == 'darwin':
+				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
+			elif _platform == 'win32':
+				print('Found '+_platform+'\n'+'')
+				build_type_path = os.path.join(flash_script_path, 'UnSigned')
+				flash_script_module = os.path.join(build_type_path, 'flash_all.bat')
+				subprocess.Popen(flash_script_module+' '+build_type_path+'\/', stderr=subprocess.STDOUT).communicate()
+
+			else :
+				print('Unable to recognise this OS')
 		
 
 		elif substr_scan.find('126') >= 0:
@@ -53,6 +65,21 @@ def validation(device, flash_script_path):
 				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
 			elif _platform == 'win32':
 				print('Found '+_platform+'\n'+'')
+				qfil_module = os.path.join(qfil_path, 'QFIL.exe')
+				build_type_path = os.path.join(flash_script_path, 'Signed')
+
+				arg1 = ' -Mode=1 '
+				arg2 = '-COM=6 '
+				arg3 = '-SEARCHPATH="'+ build_type_path +'" '
+				arg4 = '-Sahara=true;"'+ build_type_path +'\prog_emmc_FireHose_8916.mbn" '
+				arg5 = '-RawProgram=rawprogram_unsparse.xml '
+				arg6 = '-patch=patch0.xml '
+				# sys.argv = [arg1, arg2, arg3, arg4, arg5, arg6]
+				print(qfil_module + ' -Mode=1 -COM=6 -SEARCHPATH="' + build_type_path + '" -Sahara=true;"'+ build_type_path + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml')
+				os.system(qfil_module + ' -Mode=1 -COM=6 -SEARCHPATH="' + build_type_path + '" -Sahara=true;"'+ build_type_path + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml')
+				# subprocess.Popen([qfil_module + ' Mode=1 -COM=6 -SEARCHPATH="' + str(build_type_path) + '" -Sahara=true;"'+ str(build_type_path) + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml'])
+				# subprocess.call([qfil_module, arg1, arg2, arg3, arg4, arg5, arg6])
+
 			else :
 				print('Unable to recognise this OS')
 
@@ -75,4 +102,4 @@ def fastboot_function(usb_attrs, recoveries_path):
 
 if __name__ == '__main__':
 	fastboot_function(sys.argv[1], sys.argv[4])
-	validation(sys.argv[0], sys.argv[5])
+	validation(sys.argv[0], sys.argv[5], sys.argv[6])

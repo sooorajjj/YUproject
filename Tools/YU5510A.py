@@ -1,6 +1,7 @@
 #!/usr/bin/python -tt
 import sys
 from sys import platform as _platform
+from xml.etree import ElementTree as ET
 import subprocess
 import time
 import os
@@ -47,7 +48,7 @@ def validation(device, flash_script_path):
 	else :
 		print('Device Not '+device+', \nExit!')
 
-def fastboot_function(usb_attrs, recoveries_path):
+def fastboot_function(usb_attrs, recoveries_path, flash_script_path, ygdp_path):
 	cmd = 'fastboot'+usb_attrs+'getvar version'
 	scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 	# version: REFRESH_emmccid_secureboot
@@ -62,10 +63,35 @@ def fastboot_function(usb_attrs, recoveries_path):
 
 		if _platform == 'linux' or _platform == 'linux2':
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
 		elif _platform == 'darwin':
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
 		elif _platform == 'win32':
 			print('Found '+_platform+'\n'+'')
+
+			flash_module = os.path.join(flash_script_path, 'UnSigned')
+			flash_package = os.path.join(flash_module, '5.1.111.00.P0.160314.8675_I02.def.CPB')
+
+			ygdp_exe = os.path.join(ygdp_path, 'YGDP_Assembly.exe')
+			ygdp_config_module_path = os.path.join(ygdp_path, 'UserConfig')
+			ygdp_config_module = os.path.join(ygdp_config_module_path, "UserConfig.xml")
+
+			try:
+			    ET.parse(ygdp_config_module)
+			except ET.ParseError:
+			    print('{} is corrupt'.format(ygdp_config_module))
+
+			xml_tree = ET.ElementTree(file=ygdp_config_module) #path = path to .xml
+			xml_file = xml_tree.getroot()
+			# <CPB_PATH>C:\Users\ASUS\Desktop\yureka\4.4.013.00.P1.150928.8675_I02_Signed.CPB\4.4.013.00.P1.150928.8675_I02_Signed.CPB</CPB_PATH>
+
+			print(ygdp_config_module+'\n'+flash_package)
+			xml_tree.find('CPB_PATH').text = flash_package
+			xml_tree.write(ygdp_config_module)
+			os.system(ygdp_exe)
+
+
 		else :
 			print('Unable to recognise this OS')
 
@@ -109,5 +135,5 @@ def fastboot_function(usb_attrs, recoveries_path):
 
 if __name__ == '__main__':
 
-	fastboot_function(sys.argv[1], sys.argv[4])
+	fastboot_function(sys.argv[1], sys.argv[4], sys.argv[5], sys.argv[7])
 	validation(sys.argv[0], sys.argv[5])
