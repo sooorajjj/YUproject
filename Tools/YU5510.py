@@ -33,9 +33,23 @@ def validation(device, flash_script_path):
 			print('Yureka Plus ')
 
 			if len(scan4) == 0:
-				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-				# execfile(flash_script_module)#it will be available in execfile[Target] __main__
-				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+				print('Device Validation Successful !')
+				
+				if _platform == 'linux' or _platform == 'linux2':
+					flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+					subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+				
+				elif _platform == 'darwin':
+					print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+				
+				elif _platform == 'win32':
+					print('Found '+_platform+'\n'+'')
+					flash_script_module = os.path.join(flash_script_path, 'flash_all.bat')
+					subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+
+				else :
+					print('Unable to recognise this OS')
+
 
 			else :
 				print(' Device is probably Yureka plus YU5510A( A version )')
@@ -65,7 +79,7 @@ def fastboot_function(usb_attrs, recoveries_path):
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
 		elif _platform == 'win32':
 			print('Found '+_platform+'\n'+'')
-
+			print('THERE is no Unsigned YU5510\n Probably you are wanted to choose YU5510A')
 			
 		else :
 			print('Unable to recognise this OS')
@@ -89,10 +103,12 @@ def fastboot_function(usb_attrs, recoveries_path):
 			scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan1)
 
+			wait_for_user_input = raw_input('Press VOLUME-UP on YU5510, Then Press ENTER in PC keyboard to continue to device varification: ')
+			time.sleep(10)
 			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_v2.8.7.0_Yureka_Plus.img')
 			scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan)
-			time.sleep(10)
+			time.sleep(20)
 
 
 		elif scan0.find('Device unlocked: true') >= 0 :
@@ -100,7 +116,7 @@ def fastboot_function(usb_attrs, recoveries_path):
 			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_v2.8.7.0_Yureka_Plus.img')
 			scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan)
-			time.sleep(10)
+			time.sleep(20)
 
 		else : 
 			print('Wrong choice of device')

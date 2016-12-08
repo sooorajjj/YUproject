@@ -74,9 +74,14 @@ def validation(device, flash_script_path, qfil_path):
 				arg4 = '-Sahara=true;"'+ build_type_path +'\prog_emmc_FireHose_8916.mbn" '
 				arg5 = '-RawProgram=rawprogram_unsparse.xml '
 				arg6 = '-patch=patch0.xml '
+
+				print('------------[ Detach Your Device From Pc, Get it into Download Mode, And Reconnect it Now ]------------')
+				print('-----------[ Program is about to lunch QFIL tool with all the Firmwares loaded for YU4771+ ]-----------')
+				print('-------[ You Only need To Select the Port And Flat Build option in QFIL Tool and press Download]-------')
+				wait_for_user_input = raw_input('Press ENTER to Lunch QFIL tool:')
+
 				# sys.argv = [arg1, arg2, arg3, arg4, arg5, arg6]
-				print(qfil_module + ' -Mode=1 -COM=6 -SEARCHPATH="' + build_type_path + '" -Sahara=true;"'+ build_type_path + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml')
-				os.system(qfil_module + ' -Mode=1 -COM=6 -SEARCHPATH="' + build_type_path + '" -Sahara=true;"'+ build_type_path + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml')
+				os.system(qfil_module + arg1 + arg2 + arg3 + arg4 + arg5 + arg6)
 				# subprocess.Popen([qfil_module + ' Mode=1 -COM=6 -SEARCHPATH="' + str(build_type_path) + '" -Sahara=true;"'+ str(build_type_path) + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml'])
 				# subprocess.call([qfil_module, arg1, arg2, arg3, arg4, arg5, arg6])
 

@@ -7,7 +7,7 @@ import time
 
 
 
-def validation(device, flash_script_path):
+def validation(device, flash_script_path, qfil_path, firmware_path):
 
 	cmd1 = 'adb devices'
 	scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
@@ -31,6 +31,7 @@ def validation(device, flash_script_path):
 
 		if int(substr_scan2) >= 1553696:#MemTotal:        1953696 kB
 			print('Yunique Plus '+device+'+')
+			print('Device Verification Successful !')
 			if _platform == 'linux' or _platform == 'linux2':
 				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
 			
@@ -39,6 +40,25 @@ def validation(device, flash_script_path):
 
 			elif _platform == 'win32':
 				print('Found '+_platform+'\n'+'')
+
+				
+				print('------------[ Detach Your Device From Pc, Get it into Download Mode, And Reconnect it Now ]------------')
+				print('-----------[ Program is about to lunch QFIL tool with all the Firmwares loaded for YU4771+ ]-----------')
+				print('-------[ You Only need To Select the Port And Flat Build option in QFIL Tool and press Download]-------')
+				
+				wait_for_user_input = raw_input('Press ENTER to Lunch QFIL tool:')
+
+				qfil_module = os.path.join(qfil_path, 'QFIL.exe')
+				device_firmware_path = os.path.join(firmware_path, 'YU4711+')
+
+				arg1 = ' -Mode=1 '
+				arg2 = '-COM=6 '
+				arg3 = '-SEARCHPATH="'+ device_firmware_path +'" '
+				arg4 = '-Sahara=true;"'+ device_firmware_path +'\prog_emmc_FireHose_8916.mbn" '
+				arg5 = '-RawProgram=rawprogram0.xml '
+				arg6 = '-patch=patch0.xml '
+				os.system(qfil_module + arg1 + arg2 + arg3 + arg4 + arg5 + arg6)
+				
 
 			else :
 				print('Unable to recognise this OS')
@@ -82,9 +102,9 @@ def fastboot_function(usb_attrs, recoveries_path):
 	cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP-2.8.7.0_jalebi-v2.img')
 	scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 	print(scan)
-	time.sleep(13)
+	time.sleep(20)
 
 
 if __name__ == '__main__':
 	fastboot_function(sys.argv[1], sys.argv[4])
-	validation(sys.argv[0], sys.argv[5])
+	validation(sys.argv[0], sys.argv[5], sys.argv[6], sys.argv[9])

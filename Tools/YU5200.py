@@ -24,7 +24,6 @@ def validation(device, flash_script_path):
 
 		if _platform == 'linux' or _platform == 'linux2':
 			flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-			# execfile(flash_script_module)#it will be available in execfile[Target] __main__
 			subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
 		
 		elif _platform == 'darwin':

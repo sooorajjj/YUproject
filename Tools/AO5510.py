@@ -28,9 +28,19 @@ def validation(device, flash_script_path):
 		
 		if scan3.find('panel.xres=720') :
 			print('Yureka')
-			flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-			# execfile(flash_script_module)#it will be available in execfile[Target] __main__
-			subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+
+			if _platform == 'linux' or _platform == 'linux2':
+				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+
+			elif _platform == 'darwin':
+				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+
+			elif _platform == 'win32':
+				print('Found '+_platform+'\n'+'')
+				flash_script_module = os.path.join(flash_script_path, 'flash_all.bat')
+				subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+				
 
 		else :
 			print('Unknown Model of'+device)
@@ -47,7 +57,7 @@ def fastboot_function(usb_attrs, recoveries_path):
 	cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'twrp-3.0.2-0-tomato.img')
 	scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 	print(scan)
-	time.sleep(8)
+	time.sleep(20)
 
 if __name__ == '__main__':
 

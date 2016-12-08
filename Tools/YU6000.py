@@ -27,7 +27,10 @@ def fastboot_function(device, usb_attrs, flash_script_path, sp_flash_tool_path):
 		elif _platform == 'win32':
 			print('Found '+_platform+'\n'+'')
 			sp_flash_tool_module = os.path.join(sp_flash_tool_path, 'flash_tool.exe')
-			os.system(sp_flash_tool_module+' -d ' + sp_flash_tool_path + '\MTK_AllInOne_DA.bin -s ' + flash_script_path + '\MT6753_Android_scatter.txt -c firmware-upgrade')
+			arg1 = ' -d ' + sp_flash_tool_path+ '\MTK_AllInOne_DA.bin'
+			arg2 = ' -s ' + flash_script_path + '\MT6753_Android_scatter.txt'
+			arg3 = ' -c firmware-upgrade'
+			os.system(sp_flash_tool_module + arg1 + arg2 + arg3)
 			
 		else :
 			print('Unable to recognise this OS')

@@ -23,7 +23,7 @@ def select_device(project_path):
 	qfil_path = os.path.join(project_path, 'QFIL')
 	ygdp_path = os.path.join(project_path, 'YGDP')
 	sp_flash_tool_path = os.path.join(project_path, 'SPFlashTools')
-	sys.argv = [device, usb_attrs, project_path, tools_path, recovery_path, flash_script_path, qfil_path, ygdp_path, sp_flash_tool_path]# Contains modelNo, we can set more arguments,
+	sys.argv = [device, usb_attrs, project_path, tools_path, recovery_path, flash_script_path, qfil_path, ygdp_path, sp_flash_tool_path, firmwares_path]# Contains modelNo, we can set more arguments,
 	execfile(device_module_path+'.py')#it will be available in execfile[Target] __main__
 
 
