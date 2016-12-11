@@ -105,6 +105,7 @@ def fastboot_function(usb_attrs, recoveries_path):
 
 			wait_for_user_input = raw_input('Press VOLUME-UP on YU5510, Then Press ENTER in PC keyboard to continue to device varification: ')
 			time.sleep(10)
+			
 			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_v2.8.7.0_Yureka_Plus.img')
 			scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan)

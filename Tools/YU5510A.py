@@ -37,16 +37,20 @@ def validation(device, flash_script_path):
 			if device.find(substr_scan1) >= 0:
 				
 				if _platform == 'linux' or _platform == 'linux2':
-					flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-					subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+					flash_module = os.path.join(flash_script_path, 'Signed')
+					flash_module_kk = os.pa.join(flash_module, 'Kitkat')
+					flash_script =os.path.join(flash_module_kk, 'flash.sh')
+					subprocess.call(['source '+flash_script+' '+flash_module_kk], shell=True)
 				
 				elif _platform == 'darwin':
 					print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
 				
 				elif _platform == 'win32':
 					print('Found '+_platform+'\n'+'')
-					flash_script_module = os.path.join(flash_script_path, 'flash_all.bat')
-					subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+					flash_module = os.path.join(flash_script_path, 'Signed')
+					flash_module_kk = os.path.join(flash_module, 'Kitkat')
+					flash_script =os.path.join(flash_module_kk, 'flash_all.bat')
+					subprocess.Popen(flash_script+' '+flash_module_kk+'\/', stderr=subprocess.STDOUT).communicate()
 
 				else :
 					print('Unable to recognise this OS')
@@ -72,7 +76,7 @@ def fastboot_function(usb_attrs, recoveries_path, flash_script_path, ygdp_path):
 
 	if scan.find('0.5_emmccid_secureboot') >= 0 :
 
-		print("Unsigned Device Detected")
+		print("Signed LP Device Detected")
 
 		if _platform == 'linux' or _platform == 'linux2':
 			print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
@@ -83,8 +87,9 @@ def fastboot_function(usb_attrs, recoveries_path, flash_script_path, ygdp_path):
 		elif _platform == 'win32':
 			print('Found '+_platform+'\n'+'')
 
-			flash_module = os.path.join(flash_script_path, 'UnSigned')
-			flash_package = os.path.join(flash_module, '5.1.111.00.P0.160314.8675_I02.def.CPB')
+			flash_module = os.path.join(flash_script_path, 'Signed')
+			flash_module_lp = os.pa.join(flash_module, 'Lollipop')
+			flash_package = os.path.join(flash_module_lp, '5.1.153.00.P0.160604.8675_I02.def.CPB')
 
 			ygdp_exe = os.path.join(ygdp_path, 'YGDP_Assembly.exe')
 			ygdp_config_module_path = os.path.join(ygdp_path, 'UserConfig')
@@ -126,18 +131,28 @@ def fastboot_function(usb_attrs, recoveries_path, flash_script_path, ygdp_path):
 			scan1 = str(subprocess.check_output(cmd1, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan1)
 
-			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_v2.8.7.0_Yureka_Plus.img')
+			wait_for_user_input = raw_input('Press VOLUME-UP on YU5510, Then Press ENTER in PC keyboard to continue to device verification: ')
+			time.sleep(25)
+
+
+			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_YU5510A_KK_recovery.img')
 			scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan)
-			time.sleep(10)
+			time.sleep(25)
+			
+			# There is no 64 bit 
+			# cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_v2.8.7.0_Yureka_Plus.img')
+			# scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
+			# print(scan)
+			# time.sleep(10)
 
 
 		elif scan0.find('Device unlocked: true') >= 0 :
 			print('unlocked bootloader')
-			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_v2.8.7.0_Yureka_Plus.img')
+			cmd = 'fastboot'+usb_attrs+'boot '+os.path.join(recoveries_path, 'TWRP_YU5510A_KK_recovery.img')
 			scan = str(subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).strip())
 			print(scan)
-			time.sleep(10)
+			time.sleep(25)
 
 		else : 
 			print('Wrong choice of device')
