@@ -38,7 +38,7 @@ def validation(device, flash_script_path):
 				
 				if _platform == 'linux' or _platform == 'linux2':
 					flash_module = os.path.join(flash_script_path, 'Signed')
-					flash_module_kk = os.pa.join(flash_module, 'Kitkat')
+					flash_module_kk = os.path.join(flash_module, 'Kitkat')
 					flash_script =os.path.join(flash_module_kk, 'flash.sh')
 					subprocess.call(['source '+flash_script+' '+flash_module_kk], shell=True)
 				
@@ -88,7 +88,7 @@ def fastboot_function(usb_attrs, recoveries_path, flash_script_path, ygdp_path):
 			print('Found '+_platform+'\n'+'')
 
 			flash_module = os.path.join(flash_script_path, 'Signed')
-			flash_module_lp = os.pa.join(flash_module, 'Lollipop')
+			flash_module_lp = os.path.join(flash_module, 'Lollipop')
 			flash_package = os.path.join(flash_module_lp, '5.1.153.00.P0.160604.8675_I02.def.CPB')
 
 			ygdp_exe = os.path.join(ygdp_path, 'YGDP_Assembly.exe')
