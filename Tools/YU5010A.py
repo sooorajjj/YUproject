@@ -76,7 +76,7 @@ def validation(device, flash_script_path, qfil_path):
 				arg6 = '-patch=patch0.xml '
 
 				print('------------[ Detach Your Device From Pc, Get it into Download Mode, And Reconnect it Now ]------------')
-				print('-----------[ Program is about to lunch QFIL tool with all the Firmwares loaded for YU4771+ ]-----------')
+				print('-----------[ Program is about to lunch QFIL tool with all the Firmwares loaded for YU5010A ]-----------')
 				print('-------[ You Only need To Select the Port And Flat Build option in QFIL Tool and press Download]-------')
 				wait_for_user_input = raw_input('Press ENTER to Lunch QFIL tool:')
 

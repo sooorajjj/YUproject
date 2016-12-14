@@ -33,7 +33,8 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 			print('Yunique Plus '+device+'+')
 			print('Device Verification Successful !')
 			if _platform == 'linux' or _platform == 'linux2':
-				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
+				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
+				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
 			
 			elif _platform == 'darwin':
 				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
@@ -41,23 +42,27 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 			elif _platform == 'win32':
 				print('Found '+_platform+'\n'+'')
 
-				
-				print('------------[ Detach Your Device From Pc, Get it into Download Mode, And Reconnect it Now ]------------')
-				print('-----------[ Program is about to lunch QFIL tool with all the Firmwares loaded for YU4771+ ]-----------')
-				print('-------[ You Only need To Select the Port And Flat Build option in QFIL Tool and press Download]-------')
-				
-				wait_for_user_input = raw_input('Press ENTER to Lunch QFIL tool:')
-
-				qfil_module = os.path.join(qfil_path, 'QFIL.exe')
 				device_firmware_path = os.path.join(firmware_path, 'YU4711+')
+				flash_script_module = os.path.join(device_firmware_path, 'fastboot_flash.cmd')
+				subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
 
-				arg1 = ' -Mode=1 '
-				arg2 = '-COM=6 '
-				arg3 = '-SEARCHPATH="'+ device_firmware_path +'" '
-				arg4 = '-Sahara=true;"'+ device_firmware_path +'\prog_emmc_FireHose_8916.mbn" '
-				arg5 = '-RawProgram=rawprogram0.xml '
-				arg6 = '-patch=patch0.xml '
-				os.system(qfil_module + arg1 + arg2 + arg3 + arg4 + arg5 + arg6)
+				
+				# print('------------[ Detach Your Device From Pc, Get it into Download Mode, And Reconnect it Now ]------------')
+				# print('-----------[ Program is about to lunch QFIL tool with all the Firmwares loaded for YU4711+ ]-----------')
+				# print('-------[ You Only need To Select the Port And Flat Build option in QFIL Tool and press Download]-------')
+				
+				# wait_for_user_input = raw_input('Press ENTER to Lunch QFIL tool:')
+
+				# qfil_module = os.path.join(qfil_path, 'QFIL.exe')
+				# device_firmware_path = os.path.join(firmware_path, 'YU4711+')
+
+				# arg1 = ' -Mode=1 '
+				# arg2 = '-COM=6 '
+				# arg3 = '-SEARCHPATH="'+ device_firmware_path +'" '
+				# arg4 = '-Sahara=true;"'+ device_firmware_path +'\prog_emmc_FireHose_8916.mbn" '
+				# arg5 = '-RawProgram=rawprogram0.xml '
+				# arg6 = '-patch=patch0.xml '
+				# os.system(qfil_module + arg1 + arg2 + arg3 + arg4 + arg5 + arg6)
 				
 
 			else :
@@ -70,7 +75,6 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 
 			if _platform == 'linux' or _platform == 'linux2':
 				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-				# execfile(flash_script_module)#it will be available in execfile[Target] __main__
 				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
 
 			elif _platform == 'darwin':
