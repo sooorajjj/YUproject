@@ -33,8 +33,10 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 			print('Yunique Plus '+device+'+')
 			print('Device Verification Successful !')
 			if _platform == 'linux' or _platform == 'linux2':
-				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
-				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+				device_firmware_path = os.path.join(firmware_path, 'YU4711+')
+				flash_script_module = os.path.join(device_firmware_path, 'flash.sh')
+
+				subprocess.call(['source '+flash_script_module+' '+device_firmware_path], shell=True)
 				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 
 			
@@ -46,7 +48,7 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 
 				device_firmware_path = os.path.join(firmware_path, 'YU4711+')
 				flash_script_module = os.path.join(device_firmware_path, 'fastboot_flash.cmd')
-				subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+				subprocess.Popen(flash_script_module+' '+device_firmware_path+'\/', stderr=subprocess.STDOUT).communicate()
 				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 
 				
