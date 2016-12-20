@@ -38,7 +38,8 @@ def fastboot_function(device, usb_attrs, flash_script_path, sp_flash_tool_path):
 
 	
 			os.system(sp_flash_tool_module + arg1 + arg2 + arg3)
-			
+			wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
+						
 		else :
 			print('Unable to recognise this OS')
 

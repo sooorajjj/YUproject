@@ -35,6 +35,8 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 			if _platform == 'linux' or _platform == 'linux2':
 				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
 				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
+
 			
 			elif _platform == 'darwin':
 				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
@@ -45,6 +47,7 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 				device_firmware_path = os.path.join(firmware_path, 'YU4711+')
 				flash_script_module = os.path.join(device_firmware_path, 'fastboot_flash.cmd')
 				subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 
 				
 				# print('------------[ Detach Your Device From Pc, Get it into Download Mode, And Reconnect it Now ]------------')
@@ -76,6 +79,7 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 			if _platform == 'linux' or _platform == 'linux2':
 				flash_script_module = os.path.join(flash_script_path, 'flash.sh')
 				subprocess.call(['source '+flash_script_module+' '+flash_script_path], shell=True)
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 
 			elif _platform == 'darwin':
 				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
@@ -84,6 +88,7 @@ def validation(device, flash_script_path, qfil_path, firmware_path):
 				print('Found '+_platform+'\n'+'')
 				flash_script_module = os.path.join(flash_script_path, 'flash_all.bat')
 				subprocess.Popen(flash_script_module+' '+flash_script_path+'\/', stderr=subprocess.STDOUT).communicate()
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 				
 			else :
 				print('Unable to recognise this OS')

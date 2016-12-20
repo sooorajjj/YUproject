@@ -41,6 +41,12 @@ def validation(device, flash_script_path):
 					flash_module_kk = os.path.join(flash_module, 'Kitkat')
 					flash_script =os.path.join(flash_module_kk, 'flash.sh')
 					subprocess.call(['source '+flash_script+' '+flash_module_kk], shell=True)
+					
+					wait_for_user_input = raw_input('Press ENTER on your keyboard , once device gets into fctest screen : ')
+					cmd6 = 'adb shell fctest system reboot'
+					scan6 = str(subprocess.check_output(cmd6, shell=True, stderr=subprocess.STDOUT).strip())
+					wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
+
 				
 				elif _platform == 'darwin':
 					print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
@@ -51,6 +57,12 @@ def validation(device, flash_script_path):
 					flash_module_kk = os.path.join(flash_module, 'Kitkat')
 					flash_script =os.path.join(flash_module_kk, 'flash_all.bat')
 					subprocess.Popen(flash_script+' '+flash_module_kk+'\/', stderr=subprocess.STDOUT).communicate()
+
+					wait_for_user_input = raw_input('Press ENTER on your keyboard , once device gets into fctest screen : ')
+					cmd6 = 'adb shell fctest system reboot'
+					scan6 = str(subprocess.check_output(cmd6, shell=True, stderr=subprocess.STDOUT).strip())
+					wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
+
 
 				else :
 					print('Unable to recognise this OS')
@@ -108,6 +120,12 @@ def fastboot_function(usb_attrs, recoveries_path, flash_script_path, ygdp_path):
 			xml_tree.find('CPB_PATH').text = flash_package
 			xml_tree.write(ygdp_config_module)
 			os.system(ygdp_exe)
+
+			wait_for_user_input = raw_input('Press ENTER on your keyboard , once device gets into fctest screen : ')s
+			cmd6 = 'adb shell fctest system reboot'
+			scan6 = str(subprocess.check_output(cmd6, shell=True, stderr=subprocess.STDOUT).strip())
+			wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
+
 
 
 		else :

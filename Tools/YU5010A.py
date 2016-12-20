@@ -42,6 +42,7 @@ def validation(device, flash_script_path, qfil_path):
 				build_type_path = os.path.join(flash_script_path, 'UnSigned')
 				flash_script_module = os.path.join(build_type_path, 'flash.sh')
 				subprocess.call(['source '+flash_script_module+' '+build_type_path], shell=True)
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 
 			elif _platform == 'darwin':
 				print('Found '+_platform+'\n'+'Sorry we only got Windows support for this device')
@@ -51,6 +52,7 @@ def validation(device, flash_script_path, qfil_path):
 				build_type_path = os.path.join(flash_script_path, 'UnSigned')
 				flash_script_module = os.path.join(build_type_path, 'flash_all.bat')
 				subprocess.Popen(flash_script_module+' '+build_type_path+'\/', stderr=subprocess.STDOUT).communicate()
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
 
 			else :
 				print('Unable to recognise this OS')
@@ -84,7 +86,8 @@ def validation(device, flash_script_path, qfil_path):
 				os.system(qfil_module + arg1 + arg2 + arg3 + arg4 + arg5 + arg6)
 				# subprocess.Popen([qfil_module + ' Mode=1 -COM=6 -SEARCHPATH="' + str(build_type_path) + '" -Sahara=true;"'+ str(build_type_path) + '\prog_emmc_FireHose_8916.mbn" -RawProgram=rawprogram_unsparse.xml -patch=patch0.xml'])
 				# subprocess.call([qfil_module, arg1, arg2, arg3, arg4, arg5, arg6])
-
+				wait_for_user_input = raw_input('Device Flashed Successfully !!! .......')
+				
 			else :
 				print('Unable to recognise this OS')
 
